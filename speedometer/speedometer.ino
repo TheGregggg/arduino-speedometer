@@ -3,6 +3,8 @@
 #define Digit1 3
 #define Digit2 4
 #define ledPin 13
+#define SERIAL_BUFFER_SIZE 3
+
 #include <SPI.h>
 #include <Servo.h>
 
@@ -69,7 +71,7 @@ void setup() {
   digitalWrite(Digit2, 1);
 
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
-  Serial.begin(1800);
+  Serial.begin(2000000);
 
 
   SPI.begin();
@@ -104,22 +106,38 @@ ISR(TIMER2_COMPA_vect)          // interrupt being called at 300hz
 
   
 }
-#define SERIALBUFFERSIZE 5
-unsigned char buffer[SERIALBUFFERSIZE];
-
+unsigned char serial_buffer[SERIAL_BUFFER_SIZE];
+unsigned char read_byte;
+unsigned char serial_buffer_index;
+unsigned char valide_start=0;
 
 void loop() {
-  if (Serial.available() >= SERIALBUFFERSIZE) {
-    Serial.readBytes(buffer, SERIALBUFFERSIZE);
-    if(buffer[0]==255 and buffer[SERIALBUFFERSIZE-1]==254){
-      serial_speed= (buffer[1]<<5) + buffer[2]; 
-      setSPEED_BCD(serial_speed);
-      serial_rpm = buffer[3]
-      myservo.write(((unsigned int)serial_rpm * 150) / max_rpm);
+  if (Serial.available() > 0) {
+    read_byte = Serial.read();
+    if(read_byte==255){
+      if(valide_start == 0){
+        //start packet read
+        serial_buffer_index=0;
+        valide_start=1;
+      }else{
+        //error stop packet read
+        valide_start=0;
+      }
     }
-  
-    while (Serial.available() > 0) { //flush the serial read buffer
-      Serial.read();
+    else if(valide_start==1){
+      if(read_byte==254){ //check if stop byte
+        if(serial_buffer_index==3){ //check if all packed as been read and applyes the changes
+          serial_speed= (serial_buffer[0]<<5) + serial_buffer[1]; 
+          setSPEED_BCD(serial_speed);
+
+          serial_rpm = serial_buffer[2];
+          myservo.write(((unsigned int)serial_rpm * 150) / max_rpm);
+        }
+        valide_start=0;
+      }else{
+        serial_buffer[serial_buffer_index]=read_byte;
+        serial_buffer_index++;
+      }
     }
   }
 }

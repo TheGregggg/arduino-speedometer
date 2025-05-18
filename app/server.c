@@ -77,7 +77,7 @@ int main(void) {
   memset(&read_buf, '\0', sizeof(read_buf));
 
   // Ouverture du port série
-  serial_port=configure_serial("/dev/ttyACM0", B1800);
+  serial_port=configure_serial("/dev/ttyACM0", B2000000);
   if (serial_port < 0) return 1;
 
   sleep (3);  // attendre le redemrage du uno
@@ -116,7 +116,7 @@ int main(void) {
     
     float rpm = *((float*)&(buffer[16])); 
     u_int8_t rpm_byte = rpm/100;
-    
+
     serialbuffer[1] = speed_bytes_h;
     serialbuffer[2] = speed_bytes_l;
     serialbuffer[3] = rpm_byte;
