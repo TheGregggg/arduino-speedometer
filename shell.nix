@@ -11,5 +11,6 @@ in
         python-pkgs.pyserial
       ]))
       arduino
+      llvmPackages_19.clang-tools
     ];
   }
