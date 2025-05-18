@@ -3,7 +3,7 @@ import time
 import socket
 import struct
 
-ser = serial.Serial("COM3", 2000000, timeout=10)
+ser = serial.Serial("/dev/ttyACM0", 2000000, timeout=10)
 time.sleep(2)
 
 # UDP server settings
@@ -53,7 +53,7 @@ print(f"Listening for Forza telemetry on {UDP_IP}:{UDP_PORT}...")
 
 while True:
     data, addr = sock.recvfrom(512)
-    # print(f"Received {len(data)} bytes from {addr}")
+    #print(f"Received {len(data)} bytes from {addr}")
 
     game_title = "Unknown"
     if len(data) == 232:
@@ -74,10 +74,18 @@ while True:
 
     # print(f"Game: {game_title}")
     # print("Base Telemetry:")
-    print(base_data[4])
+    speed_offset = 244 
+    speed = int(struct.unpack_from('<f', data, speed_offset)[0] * 3.6)
+    print(speed)
     res = bytes([int(base_data[4]/100)])
-    ser.write(res)
-    # print(" ".join(f"{byte:02x}" for byte in res))
+    speed1 = bytes([int(speed/256)])
+    speed2 = bytes([int(speed%256)])
+    # print(speed1)
+    # ser.write(res)
+    ser.write(speed1)
+    ser.write(speed2)
+    print(" ".join(f"{byte:02x}" for byte in speed1), end=" / ")
+    print(" ".join(f"{byte:02x}" for byte in speed2))
 
 
     # if game_title in ["Forza Horizon 4", "Forza Motorsport 7 Dash"]:
@@ -95,8 +103,8 @@ def send(i):
     print(" ".join(f"{byte:02x}" for byte in res))
 
     ser.write(res)
-    # data_bytes = ser.read()
-    # print(' '.join(f'{byte:02x}' for byte in data_bytes))
+    data_bytes = ser.read()
+    print(' '.join(f'{byte:02x}' for byte in data_bytes))
     print()
 
 
