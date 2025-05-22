@@ -31,13 +31,26 @@ unsigned int NUMBER_TO_LED[10] = {
 
 unsigned int CURRENT_DIGIT = 0;
 
-unsigned int SPEED[3] = {0,0,1};
+unsigned int SPEED[3] = {0,0,0};
+
+unsigned char serial_buffer[SERIAL_BUFFER_SIZE];
+unsigned char read_byte;
+unsigned char serial_buffer_index;
+unsigned char valide_start=0;
 
 
 void setSPEED_BCD(unsigned int nb){
   SPEED[2] = nb/100;
   SPEED[1] = (nb%100)/10;
   SPEED[0] = (nb%10);
+}
+
+void startupSequence(){
+  myservo.write(0);
+  delay(1000);
+  myservo.write(150);
+  delay(1000);
+  myservo.write(0);
 }
 
 void setupTimer2(){
@@ -78,6 +91,8 @@ void setup() {
   SPI.beginTransaction(SPISettings(40000000, MSBFIRST, SPI_MODE0));
  
   setupTimer2();
+
+  startupSequence();
 }
 
 ISR(TIMER2_COMPA_vect)          // interrupt being called at 300hz 
@@ -106,10 +121,8 @@ ISR(TIMER2_COMPA_vect)          // interrupt being called at 300hz
 
   
 }
-unsigned char serial_buffer[SERIAL_BUFFER_SIZE];
-unsigned char read_byte;
-unsigned char serial_buffer_index;
-unsigned char valide_start=0;
+
+
 
 void loop() {
   if (Serial.available() > 0) {

@@ -1,4 +1,5 @@
 # arduino-speedometer
 Speedometer using arduino, servo motors for sim racing
-
-arduino-language-server -clangd clangd -cli arduino-cli -cli-config $HOME/.arduino15/arduino-cli.yaml -fqbn arduino:avr:uno
+STEP files used:
+-https://www.printables.com/model/360145-micro-servo-3d-model-stp/files
+-https://www.printables.com/model/358867-arduino-uno-3d-model-stp/files
