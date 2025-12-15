@@ -1,0 +1,285 @@
+[Version]
+Product,2
+File,19
+{
+"Config" : {
+  "NetImportFormat" : "OrcadPCB2"
+},
+"Board" : {
+  "Width" : 57,
+  "Height" : 32,
+  "Pattern" : "Donut"
+},
+"CelledOutlines" : [
+  { "Name" : "$noname", "Locked" : true,
+    "Rows" : [
+    [{"Pin" : ""},"Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"]
+    ]
+  },
+  { "Name" : "Module:Arduino_UNO_R3", "Locked" : false,
+    "Rows" : [
+    ["Body","Free","Body"],
+    ["Body","Body","Body"]
+    ]
+  },
+  { "Name" : "Package_DIP:CERDIP-16_W7.62mm_SideBrazed", "Locked" : true,
+    "Rows" : [
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"]
+    ]
+  },
+  { "Name" : "Package_DIP:DIP-12_W7.62mm", "Locked" : true,
+    "Rows" : [
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"],
+    ["Body","Free","Free","Free","Body"]
+    ]
+  },
+  { "Name" : "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical", "Locked" : true,
+    "Rows" : [
+    ["Body"],
+    ["Body"]
+    ]
+  }
+],
+"LeadedOutlines" : [
+],
+"RadialOutlines" : [
+],
+"CustomOutlines" : [
+],
+"SmdOutlines" : [
+],
+"Components" : [
+  { "Designator" : "Package_DIP:DIP-12_W7.62mm", "Value" : "", "Outline" : "Package_DIP:DIP-12_W7.62mm",
+  "X1000" : 36000, "Y1000" : 13000, "EndDeltaX" : 0, "EndDeltaY" : 1,
+  "Text" : { "X" : 0, "Y" : -1, "Angle" : 0, "Visible" : true },
+  "Group" : 0
+  },
+  { "Designator" : "Module:Arduino_UNO_R3", "Value" : "Arduino_UNO_R3", "Outline" : "Module:Arduino_UNO_R3",
+  "X1000" : 54000, "Y1000" : 29000, "EndDeltaX" : 0, "EndDeltaY" : 1,
+  "Text" : { "X" : 0, "Y" : -1, "Angle" : 0, "Visible" : true },
+  "Group" : 0
+  },
+  { "Designator" : "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical", "Value" : "220", "Outline" : "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P1.90mm_Vertical",
+  "X1000" : 30000, "Y1000" : 29000, "EndDeltaX" : 0, "EndDeltaY" : 1,
+  "Text" : { "X" : 0, "Y" : -1, "Angle" : 0, "Visible" : true },
+  "Group" : 0
+  },
+  { "Designator" : "Package_DIP:CERDIP-16_W7.62mm_SideBrazed", "Value" : "74HC595", "Outline" : "Package_DIP:CERDIP-16_W7.62mm_SideBrazed",
+  "X1000" : 22000, "Y1000" : 10000, "EndDeltaX" : 0, "EndDeltaY" : 1,
+  "Text" : { "X" : 0, "Y" : -1, "Angle" : 0, "Visible" : true },
+  "Group" : 0
+  }
+],
+"Links" : [
+],
+"Breaks" : [
+],
+"Wires" : [
+],
+"Text" : [
+],
+"Nets" : [
+    { "Node" : "GNDPWR", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["12"] },
+    { "Name" : "A1", "Pins" : ["7"] },
+    { "Name" : "U1", "Pins" : ["13"] }
+    ] },
+    { "Node" : "Net-(3461BS1-A)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["11"] },
+    { "Name" : "R1", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-B)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["7"] },
+    { "Name" : "R2", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-C)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["4"] },
+    { "Name" : "R3", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-D)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["2"] },
+    { "Name" : "R4", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-DIG2)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["9"] },
+    { "Name" : "A1", "Pins" : ["19"] }
+    ] },
+    { "Node" : "Net-(3461BS1-DIG3)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["8"] },
+    { "Name" : "A1", "Pins" : ["18"] }
+    ] },
+    { "Node" : "Net-(3461BS1-DIG4)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["6"] },
+    { "Name" : "A1", "Pins" : ["17"] }
+    ] },
+    { "Node" : "Net-(3461BS1-DP)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["3"] },
+    { "Name" : "R8", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-E)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["1"] },
+    { "Name" : "R5", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-F)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["10"] },
+    { "Name" : "R6", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(3461BS1-G)", "Components" : [
+    { "Name" : "3461BS1", "Pins" : ["5"] },
+    { "Name" : "R7", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(A1-D11)", "Components" : [
+    { "Name" : "A1", "Pins" : ["26"] },
+    { "Name" : "U1", "Pins" : ["14"] }
+    ] },
+    { "Node" : "Net-(A1-D13)", "Components" : [
+    { "Name" : "A1", "Pins" : ["28"] },
+    { "Name" : "U1", "Pins" : ["11"] }
+    ] },
+    { "Node" : "Net-(A1-D8)", "Components" : [
+    { "Name" : "A1", "Pins" : ["23"] },
+    { "Name" : "U1", "Pins" : ["12"] }
+    ] },
+    { "Node" : "Net-(U1-QA)", "Components" : [
+    { "Name" : "R1", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["15"] }
+    ] },
+    { "Node" : "Net-(U1-QB)", "Components" : [
+    { "Name" : "R2", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["1"] }
+    ] },
+    { "Node" : "Net-(U1-QC)", "Components" : [
+    { "Name" : "R3", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["2"] }
+    ] },
+    { "Node" : "Net-(U1-QD)", "Components" : [
+    { "Name" : "R4", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["3"] }
+    ] },
+    { "Node" : "Net-(U1-QE)", "Components" : [
+    { "Name" : "R5", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["4"] }
+    ] },
+    { "Node" : "Net-(U1-QF)", "Components" : [
+    { "Name" : "R6", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["5"] }
+    ] },
+    { "Node" : "Net-(U1-QG)", "Components" : [
+    { "Name" : "R7", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["6"] }
+    ] },
+    { "Node" : "Net-(U1-QH)", "Components" : [
+    { "Name" : "R8", "Pins" : ["2"] },
+    { "Name" : "U1", "Pins" : ["7"] }
+    ] },
+    { "Node" : "unconnected-(A1-~{RESET}-Pad3)", "Components" : [
+    { "Name" : "A1", "Pins" : ["3"] }
+    ] },
+    { "Node" : "unconnected-(A1-3V3-Pad4)", "Components" : [
+    { "Name" : "A1", "Pins" : ["4"] }
+    ] },
+    { "Node" : "unconnected-(A1-A0-Pad9)", "Components" : [
+    { "Name" : "A1", "Pins" : ["9"] }
+    ] },
+    { "Node" : "unconnected-(A1-A1-Pad10)", "Components" : [
+    { "Name" : "A1", "Pins" : ["10"] }
+    ] },
+    { "Node" : "unconnected-(A1-A2-Pad11)", "Components" : [
+    { "Name" : "A1", "Pins" : ["11"] }
+    ] },
+    { "Node" : "unconnected-(A1-A3-Pad12)", "Components" : [
+    { "Name" : "A1", "Pins" : ["12"] }
+    ] },
+    { "Node" : "unconnected-(A1-AREF-Pad30)", "Components" : [
+    { "Name" : "A1", "Pins" : ["30"] }
+    ] },
+    { "Node" : "unconnected-(A1-D0{slash}RX-Pad15)", "Components" : [
+    { "Name" : "A1", "Pins" : ["15"] }
+    ] },
+    { "Node" : "unconnected-(A1-D1{slash}TX-Pad16)", "Components" : [
+    { "Name" : "A1", "Pins" : ["16"] }
+    ] },
+    { "Node" : "unconnected-(A1-D10-Pad25)", "Components" : [
+    { "Name" : "A1", "Pins" : ["25"] }
+    ] },
+    { "Node" : "unconnected-(A1-D12-Pad27)", "Components" : [
+    { "Name" : "A1", "Pins" : ["27"] }
+    ] },
+    { "Node" : "unconnected-(A1-D5-Pad20)", "Components" : [
+    { "Name" : "A1", "Pins" : ["20"] }
+    ] },
+    { "Node" : "unconnected-(A1-D6-Pad21)", "Components" : [
+    { "Name" : "A1", "Pins" : ["21"] }
+    ] },
+    { "Node" : "unconnected-(A1-D7-Pad22)", "Components" : [
+    { "Name" : "A1", "Pins" : ["22"] }
+    ] },
+    { "Node" : "unconnected-(A1-D9-Pad24)", "Components" : [
+    { "Name" : "A1", "Pins" : ["24"] }
+    ] },
+    { "Node" : "unconnected-(A1-GND-Pad29)", "Components" : [
+    { "Name" : "A1", "Pins" : ["29"] }
+    ] },
+    { "Node" : "unconnected-(A1-GND-Pad6)", "Components" : [
+    { "Name" : "A1", "Pins" : ["6"] }
+    ] },
+    { "Node" : "unconnected-(A1-IOREF-Pad2)", "Components" : [
+    { "Name" : "A1", "Pins" : ["2"] }
+    ] },
+    { "Node" : "unconnected-(A1-NC-Pad1)", "Components" : [
+    { "Name" : "A1", "Pins" : ["1"] }
+    ] },
+    { "Node" : "unconnected-(A1-SCL{slash}A5-Pad14)", "Components" : [
+    { "Name" : "A1", "Pins" : ["14"] }
+    ] },
+    { "Node" : "unconnected-(A1-SCL{slash}A5-Pad32)", "Components" : [
+    { "Name" : "A1", "Pins" : ["32"] }
+    ] },
+    { "Node" : "unconnected-(A1-SDA{slash}A4-Pad13)", "Components" : [
+    { "Name" : "A1", "Pins" : ["13"] }
+    ] },
+    { "Node" : "unconnected-(A1-SDA{slash}A4-Pad31)", "Components" : [
+    { "Name" : "A1", "Pins" : ["31"] }
+    ] },
+    { "Node" : "unconnected-(A1-VIN-Pad8)", "Components" : [
+    { "Name" : "A1", "Pins" : ["8"] }
+    ] },
+    { "Node" : "unconnected-(U1-GND-Pad8)", "Components" : [
+    { "Name" : "U1", "Pins" : ["8"] }
+    ] },
+    { "Node" : "unconnected-(U1-QH'-Pad9)", "Components" : [
+    { "Name" : "U1", "Pins" : ["9"] }
+    ] },
+    { "Node" : "VCC", "Components" : [
+    { "Name" : "A1", "Pins" : ["5"] },
+    { "Name" : "U1", "Pins" : ["10", "16"] }
+    ] }
+],
+"NetColors" : [
+    { "Node" : "" },
+    { "Node" : "" },
+    { "Node" : "" },
+    { "Node" : "" },
+    { "Node" : "" },
+    { "Node" : "" }
+],
+"Notes" : {
+  "Lines" : ""
+}
+}
