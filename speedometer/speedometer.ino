@@ -1,7 +1,8 @@
 #define RegisterCLK 8
-#define Digit0 2
-#define Digit1 3
+#define Digit4 2
+#define Digit3 3
 #define Digit2 4
+#define Digit1 5
 #define ledPin 13
 #define SERIAL_BUFFER_SIZE 3
 
@@ -46,11 +47,11 @@ void setSPEED_BCD(unsigned int nb){
 }
 
 void startupSequence(){
+  myservo.write(180);
+  delay(750);
   myservo.write(0);
-  delay(1000);
-  myservo.write(150);
-  delay(1000);
-  myservo.write(0);
+  delay(750);
+  myservo.write(180);
 }
 
 void setupTimer2(){
@@ -75,13 +76,15 @@ void setup() {
   digitalWrite(RegisterCLK, 0);
 
   // Setup Digits pins
-  pinMode(Digit0, OUTPUT);
   pinMode(Digit1, OUTPUT);
   pinMode(Digit2, OUTPUT);
-
-  digitalWrite(Digit0, 1);
-  digitalWrite(Digit1, 1);
-  digitalWrite(Digit2, 1);
+  pinMode(Digit3, OUTPUT);
+  pinMode(Digit4, OUTPUT);
+  
+  digitalWrite(Digit1, 0);
+  digitalWrite(Digit2, 0);
+  digitalWrite(Digit3, 0);
+  digitalWrite(Digit4, 0);
 
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
   Serial.begin(2000000);
@@ -100,22 +103,22 @@ ISR(TIMER2_COMPA_vect)          // interrupt being called at 300hz
   CURRENT_DIGIT = (CURRENT_DIGIT+1)%3; // light up the right digit in the 4 digit 8 segment display
   switch (CURRENT_DIGIT){
     case 0:
-    digitalWrite(Digit2, 1);
-    digitalWrite(Digit0, 0);
+    digitalWrite(Digit4, 1);
+    digitalWrite(Digit2, 0);
     break;
     
     case 1:
-    digitalWrite(Digit0, 1);
-    digitalWrite(Digit1, 0);
+    digitalWrite(Digit4, 0);
+    digitalWrite(Digit3, 1);
     break;
     
     case 2:
-    digitalWrite(Digit1, 1);
-    digitalWrite(Digit2, 0);
+    digitalWrite(Digit3, 0);
+    digitalWrite(Digit2, 1);
     break;
   }
   
-  SPI.transfer(NUMBER_TO_LED[SPEED[CURRENT_DIGIT]]);  // send the new bytes to the serial in parallel out
+  SPI.transfer(~(NUMBER_TO_LED[SPEED[CURRENT_DIGIT]]));  // send the new bytes to the serial in parallel out
   digitalWrite(RegisterCLK, 1); // register the new command into the  serial in parallel out shifter
   digitalWrite(RegisterCLK, 0);
 
@@ -144,7 +147,7 @@ void loop() {
           setSPEED_BCD(serial_speed);
 
           serial_rpm = serial_buffer[2];
-          myservo.write(((unsigned int)serial_rpm * 150) / max_rpm);
+          myservo.write(180-(((unsigned int)serial_rpm * 150) / max_rpm));
         }
         valide_start=0;
       }else{
