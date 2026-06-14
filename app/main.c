@@ -1,5 +1,7 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
 
 // Linux headers
 #include <fcntl.h> 
@@ -11,6 +13,13 @@
 #include <sys/socket.h>
 
 #include "forza_horizon.h"
+
+#define ANSI_RED "\e[0;31m"
+#define ANSI_GREEN "\e[0;32m"
+#define ANSI_RESET "\e[0m"
+
+#define NOT_CONNECTED_STRING ANSI_RED "not connected" ANSI_RESET
+#define CONNECTED_STRING ANSI_GREEN "connected" ANSI_RESET
 
 #define PORT 5000
 
@@ -67,22 +76,75 @@ float getFloat(char* buffer, uint offset){
 	return *((float*)&(buffer[offset]));
 }
 
+static uint8_t running = 1;
 
-int main(void) {
-	// Buffer pour stocker les données lues
-	// Une ligne ne pourra pas faire plus que 256 caractères
-	char buffer[512];
+static uint8_t is_game_connected = 0;
+
+static float received_speed = 0;
+static float received_rpm = 0;
+
+void* uart_part(){
+	int serial_port; 
 	unsigned char serialbuffer[5];
 
-	int serial_port; 
-	int listenfd;
-	socklen_t len;
+	serialbuffer[0] = 255; // start 
+	serialbuffer[4] = 254; // end
 
 	// Ouverture du port série
 	serial_port=configure_serial("/dev/ttyACM0", B2000000);
-	if (serial_port < 0) return 1;
+	if (serial_port < 0) pthread_exit(NULL);
 
 	sleep (3);  // attendre le redemrage du uno
+
+	while(running){
+		// convert data for UART transmition
+		u_int16_t speed_bytes = (uint16_t)(received_speed*3.6);
+		
+		// split into 5 and 5 bits so that none of the high and low part can go to 255 and thus be used as end marquer
+		u_int8_t speed_bytes_h = (speed_bytes>>5)  & 0b00011111; // 5 upper bits
+		u_int8_t speed_bytes_l = speed_bytes & 0b00011111; // 5 lower bits
+		
+		u_int8_t rpm_byte = received_rpm/100;
+
+		serialbuffer[1] = speed_bytes_h;
+		serialbuffer[2] = speed_bytes_l;
+		serialbuffer[3] = rpm_byte;
+		write(serial_port,&serialbuffer,sizeof(serialbuffer));
+
+	}
+
+	close(serial_port);
+
+	return NULL;
+}
+
+void* server_part(){
+	// Buffer pour stocker les données lues
+	
+
+	return NULL;
+}
+
+
+void write_status(){
+	printf("\r\033[A\033[2K"); // cusror at the begining of line, cursor move up and erase line
+	printf("Game: %s \t Arduino: %s\n", is_game_connected == 1 ? CONNECTED_STRING : NOT_CONNECTED_STRING, NOT_CONNECTED_STRING);
+}
+
+int main(void) {
+	pthread_t uart_thread;
+
+	printf("Sim racing Speed-o-meter Server - Made by Greg\n");
+
+	printf("\n");
+	write_status();
+
+	// pthread_create(&uart_thread, NULL, uart_part, NULL);
+
+	char buffer[512];
+
+	int listenfd;
+	socklen_t len;
 
 	struct sockaddr_in servaddr, cliaddr;
 	bzero(&servaddr, sizeof(servaddr));
@@ -95,41 +157,30 @@ int main(void) {
 
 	// bind server address to socket descriptor
 	bind(listenfd, (struct sockaddr*)&servaddr, sizeof(servaddr));
-
-	// int fd = open("buffer.txt", O_RDONLY );
-	// read(fd,buffer,512);
-
-	serialbuffer[0] = 255; // start 
-	serialbuffer[4] = 254; // end
 		
 	//receive the datagram
 	len = sizeof(cliaddr);
-	while(1){
 
+	while(running){
 		int n = recvfrom(listenfd, buffer, sizeof(buffer),
 				0, (struct sockaddr*)&cliaddr,&len); //receive message from server
+		if (n == -1) continue; // error
 
-		// get data form received buffer
-		float speed = getFloat(buffer, Speed);
-		float rpm = getFloat(buffer, CurrentEngineRpm); 
+		if (n != 324) continue; // not Forza Horizon 4/5/6 packet
 
-		// convert data for UART transmition
-		u_int16_t speed_bytes = (uint16_t)(speed*3.6);
-		
-		// split into 5 and 5 bits so that none of the high and low part can go to 255 and thus be used as end marquer
-		u_int8_t speed_bytes_h = (speed_bytes>>5)  & 0b00011111; // 5 upper bits
-		u_int8_t speed_bytes_l = speed_bytes & 0b00011111; // 5 lower bits
-		
-		u_int8_t rpm_byte = rpm/100;
+		if (is_game_connected == 0){
+			is_game_connected = 1;
+			write_status();
+		}
 
-		serialbuffer[1] = speed_bytes_h;
-		serialbuffer[2] = speed_bytes_l;
-		serialbuffer[3] = rpm_byte;
-		write(serial_port,&serialbuffer,sizeof(serialbuffer));
-
+		// retrieve data form received buffer
+		received_speed = getFloat(buffer, Speed);
+		received_rpm = getFloat(buffer, CurrentEngineRpm); 
 	}
 	
-	close(serial_port);
 	close(listenfd);
+
+	pthread_join(uart_thread, NULL);
+	
 	return 0;
 }
