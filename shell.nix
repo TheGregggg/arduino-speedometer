@@ -7,9 +7,6 @@ let
 in
   pkgs.mkShell {
     packages = with pkgs; [
-      (pkgs.python312.withPackages (python-pkgs: [
-        python-pkgs.pyserial
-      ]))
       arduino
       llvmPackages_19.clang-tools
     ];
